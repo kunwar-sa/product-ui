@@ -111,6 +111,20 @@ export class ProductComponent implements OnInit {
   }
 
   toggleReviews(): void {
-    this.showReviews = !this.showReviews; // Toggle reviews display
+    // Check if the product and reviews are defined
+    if (!this.showReviews && this.selectedProduct?.reviews == null) {
+      // Simulating lazy fetch of reviews if they are undefined or null
+      console.log("inside toggleReviews()")
+      this.productService.getProductReviews(this.selectedProduct?.id ?? 0).subscribe((reviews) => {
+        if (this.selectedProduct) {
+          this.selectedProduct.reviews = reviews;
+          this.showReviews = true;
+        }
+      });
+    } else {
+      this.showReviews = !this.showReviews;
+    }
   }
+
+
 }

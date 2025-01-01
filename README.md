@@ -1,27 +1,29 @@
-# ProductUi
+# Angular frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.6.
+## Prerequisites
 
-## Development server
+Ensure these version for seamless execution of the angular app
+node v23.5.0
+npm 11.0.0
+nvm 1.2.0
+angular 14.2.0
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Steps to execute
 
-## Code scaffolding
+1. Clone this github repository `https://github.com/kunwar-sa/product-ui.git`
+2. Open the command prompt, powershell or terminal(linux, mac) in product-ui folder inside cloned repository
+3. Run `npm install`
+4. Run `ng serve`
+5. Go to `http://localhost:4200` on browser to access the app
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## How the app works
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+The app is simple. It has a search bar to search various products.
+For searching you can use the product title or description.
+The products will appear below the search bar in real time as you start typing.
+Even a partial match will give you results
+You can also click on search button once you are done typing, although that button is not needed
+You can click on the name of the product to see its details
+Within the details you can click on the show reviews button at the bottom to see the product reviews
+You can filter the product by brand
+You can sort the product by rating
