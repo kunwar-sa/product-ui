@@ -9,11 +9,11 @@ import { environment } from '../environments/environment';
 })
 export class ProductService {
 
-  private apiServerUrl = environment.apiBaseUrl;
+  private apiServerUrl = environment.apiBaseUrl
 
   constructor(private http: HttpClient) { }
 
-  public getProducts(keyword: string): Observable<Product[]> {
+  public searchProducts(keyword: string): Observable<Product[]> {
     const params = new HttpParams().set('keyword', keyword);
     return this.http.get<Product[]>(`${this.apiServerUrl}/products/search`, { params });
   }

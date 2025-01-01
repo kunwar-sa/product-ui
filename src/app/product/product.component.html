@@ -1,5 +1,6 @@
 <div>
-    <input type="text" [(ngModel)]="keyword" placeholder="Enter keyword to search" class="form-control" />
+    <input type="text" [formControl]="searchControl" placeholder="Start typing to see results i.e. long-lasting"
+        class="form-control" />
     <button (click)="search()" class="btn btn-primary mt-2">Search</button>
 </div>
 
@@ -30,24 +31,16 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>#</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Stock</th>
+                <th>Product Name</th>
                 <th>Rating</th>
                 <th>Brand</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let product of filteredProducts; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>{{ product.title }}</td>
-                <td>{{ product.description }}</td>
-                <td>{{ product.category }}</td>
-                <td>{{ product.price | currency }}</td>
-                <td>{{ product.stock }}</td>
+            <tr *ngFor="let product of filteredProducts">
+                <td>
+                    <a href="#" (click)="showProductDetails(product)">{{ product.title }}</a>
+                </td>
                 <td>{{ product.rating }}</td>
                 <td>{{ product.brand }}</td>
             </tr>
@@ -55,6 +48,75 @@
     </table>
 </div>
 
-<div *ngIf="filteredProducts.length === 0 && keyword" class="mt-4">
+<div *ngIf="filteredProducts.length === 0 && searchControl.value" class="mt-4">
     <p>No products found.</p>
+</div>
+
+<!-- Modal -->
+<div *ngIf="selectedProduct" class="modal fade show" style="display: block;" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ selectedProduct.title }}</h5>
+                <button type="button" class="btn-close" (click)="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Description:</strong> {{ selectedProduct.description }}</p>
+                <p><strong>Brand:</strong> {{ selectedProduct.brand }}</p>
+                <p><strong>Category:</strong> {{ selectedProduct.category }}</p>
+                <p><strong>Price:</strong> ${{ selectedProduct.price }}</p>
+                <p><strong>Rating:</strong> {{ selectedProduct.rating }}</p>
+                <p><strong>Stock:</strong> {{ selectedProduct.stock }}</p>
+                <p><strong>Tags:</strong> {{ selectedProduct.tags.join(', ') }}</p>
+                <p><strong>SKU:</strong> {{ selectedProduct.sku }}</p>
+                <p><strong>Weight:</strong> {{ selectedProduct.weight }} kg</p>
+                <p><strong>Dimensions:</strong>
+                    {{ selectedProduct.dimensions.width }} x
+                    {{ selectedProduct.dimensions.height }} x
+                    {{ selectedProduct.dimensions.depth }}
+                </p>
+                <p><strong>Warranty:</strong> {{ selectedProduct.warrantyInformation }}</p>
+                <p><strong>Shipping Information:</strong> {{ selectedProduct.shippingInformation }}</p>
+                <p><strong>Availability Status:</strong> {{ selectedProduct.availabilityStatus }}</p>
+                <p><strong>Return Policy:</strong> {{ selectedProduct.returnPolicy }}</p>
+                <p><strong>Minimum Order Quantity:</strong> {{ selectedProduct.minimumOrderQuantity }}</p>
+
+                <!-- Show Reviews Button -->
+                <button type="button" class="btn btn-primary mt-3" (click)="toggleReviews()">
+                    {{ showReviews ? 'Hide Reviews' : 'Show Reviews' }}
+                </button>
+
+                <!-- Reviews Section -->
+                <div *ngIf="showReviews" class="mt-4">
+                    <h5>Reviews:</h5>
+                    <div *ngIf="selectedProduct.reviews && selectedProduct.reviews.length > 0; else noReviews">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Reviewer Name</th>
+                                    <th>Rating</th>
+                                    <th>Comment</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let review of selectedProduct.reviews">
+                                    <td>{{ review.reviewerName }}</td>
+                                    <td>{{ review.rating }}</td>
+                                    <td>{{ review.comment }}</td>
+                                    <td>{{ review.date | date: 'short' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <ng-template #noReviews>
+                        <p>No reviews available for this product.</p>
+                    </ng-template>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
